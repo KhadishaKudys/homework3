@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @AllArgsConstructor
-public class UpdateInRanges implements DatabaseOperation {
+public class UpdateThreeTableEntries implements DatabaseOperation {
 
     private static final String UPDATE_TUPLE =
             "UPDATE RestartBlocking_data " +
@@ -21,7 +21,6 @@ public class UpdateInRanges implements DatabaseOperation {
                     ") RETURNING data_id";
 
     private static final double MAX_VALUE = 50.0;
-    private static final int NUM_ENTRIES_TO_UPDATE = 3;
 
     private final int task;
     private final double[] startRange;
@@ -31,7 +30,7 @@ public class UpdateInRanges implements DatabaseOperation {
     public String execute(Connection connection) throws SQLException {
         List<Integer> updatedIds = new ArrayList<>();
 
-        while (updatedIds.size() < NUM_ENTRIES_TO_UPDATE) {
+        while (updatedIds.size() < 3) {
             Array sqlArray = connection.createArrayOf(
                     "INTEGER",
                     updatedIds.toArray(Integer[]::new)

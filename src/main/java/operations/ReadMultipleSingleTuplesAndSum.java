@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 
 @AllArgsConstructor
-public class ReadMultipleTuples implements DatabaseOperation {
+public class ReadMultipleSingleTuplesAndSum implements DatabaseOperation {
 
     private static final String READ_ONLY_QUERY = "SELECT data_value FROM RestartBlocking_data WHERE data_id = ?";
 

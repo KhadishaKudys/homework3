@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ReadWholeTable implements DatabaseOperation {
+public class SumWholeTableInSQL implements DatabaseOperation {
 
     private static final String SUM_WHOLE_TABLE =
             "SELECT SUM(data_value) AS sum FROM RestartBlocking_data";

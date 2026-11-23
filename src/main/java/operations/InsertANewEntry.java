@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.concurrent.ThreadLocalRandom;
 
 @AllArgsConstructor
-public class InsertEntry implements DatabaseOperation {
+public class InsertANewEntry implements DatabaseOperation {
 
     private static final String INSERT_QUERY =
             "INSERT INTO RestartBlocking_data " +
@@ -20,9 +20,7 @@ public class InsertEntry implements DatabaseOperation {
 
     @Override
     public String execute(Connection connection) throws SQLException {
-
-        try (PreparedStatement statement =
-                     connection.prepareStatement(INSERT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
 
             statement.setInt(1, 50000 + task);
             statement.setDouble(2, ThreadLocalRandom.current().nextDouble(0, 100));

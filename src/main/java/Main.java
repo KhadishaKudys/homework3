@@ -1,8 +1,8 @@
 import enums.OperationType;
-import operations.InsertEntry;
-import operations.ReadMultipleTuples;
-import operations.ReadWholeTable;
-import operations.UpdateInRanges;
+import operations.InsertANewEntry;
+import operations.ReadMultipleSingleTuplesAndSum;
+import operations.SumWholeTableInSQL;
+import operations.UpdateThreeTableEntries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -169,10 +169,10 @@ public class Main {
                     // choose operation to run
                     final var operationType = OperationType.fromProbability(this.p);
                     final var operation = switch (operationType) {
-                        case READ_MULTIPLE_TUPLES -> new ReadMultipleTuples(startRange, stopRange);
-                        case INSERT_ENTRY -> new InsertEntry(task);
-                        case READ_WHOLE_TABLE -> new ReadWholeTable();
-                        case UPDATE_IN_RANGES -> new UpdateInRanges(task, startRange, stopRange);
+                        case READ_MULTIPLE_TUPLES -> new ReadMultipleSingleTuplesAndSum();
+                        case INSERT_ENTRY -> new InsertANewEntry(task);
+                        case READ_WHOLE_TABLE -> new SumWholeTableInSQL();
+                        case UPDATE_IN_RANGES -> new UpdateThreeTableEntries(task, startRange, stopRange);
                     };
 
                     // execute and commit
