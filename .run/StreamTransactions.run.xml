@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="StreamTransactions" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="username" value="postgres" />
+      <env name="password" value="password" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="StreamTransactions" />
+    <module name="homework3.main" />
+    <option name="PROGRAM_PARAMETERS" value="4 60 true 100" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
