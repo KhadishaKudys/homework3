@@ -21,10 +21,10 @@ public class Main {
     private static final int NUM_TUPLE = 50000;
     private static final double MAX_VALUE = 50.0f;
     public static final int NUMBER_OF_THREADS = 16;
-    private static final AtomicInteger SUM_INDIVIDUAL_TUPLES = new AtomicInteger();
-    private static final AtomicInteger INSERT = new AtomicInteger();
-    private static final AtomicInteger SUM_WHOLE_TABLE_SQL = new AtomicInteger();
-    private static final AtomicInteger UPDATE_3_ENTRIES = new AtomicInteger();
+    private static final AtomicInteger READ_MULTIPLE_SINGLE_TUPLES_AND_SUM = new AtomicInteger();
+    private static final AtomicInteger INSERT_A_NEW_ENTRY = new AtomicInteger();
+    private static final AtomicInteger SUM_WHOLE_TABLE_IN_SQL = new AtomicInteger();
+    private static final AtomicInteger UPDATE_THREE_TABLE_ENTRIES = new AtomicInteger();
     private static final AtomicInteger TASKS_FINISHED = new AtomicInteger();
 
     void executeSQL(String sql, Connection con) {
@@ -108,10 +108,10 @@ public class Main {
         double stop = System.currentTimeMillis();
         System.out.println("[DONE] Finished " + TASKS_FINISHED + " transactions in " + (stop - start) / 1000.0 + "s");
         System.out.println("Operation distribution:");
-        System.out.println("Sum individual tuples: " + SUM_INDIVIDUAL_TUPLES.get());
-        System.out.println("Insert: " + INSERT.get());
-        System.out.println("Sum whole table (SQL): " + SUM_WHOLE_TABLE_SQL.get());
-        System.out.println("Update entries: " + UPDATE_3_ENTRIES.get());
+        System.out.println("Sum individual tuples: " + READ_MULTIPLE_SINGLE_TUPLES_AND_SUM.get());
+        System.out.println("Insert: " + INSERT_A_NEW_ENTRY.get());
+        System.out.println("Sum whole table (SQL): " + SUM_WHOLE_TABLE_IN_SQL.get());
+        System.out.println("Update entries: " + UPDATE_THREE_TABLE_ENTRIES.get());
     }
 
     /**
@@ -169,10 +169,10 @@ public class Main {
                     // choose operation to run
                     final var operationType = OperationType.fromProbability(this.p);
                     final var operation = switch (operationType) {
-                        case READ_MULTIPLE_TUPLES -> new ReadMultipleSingleTuplesAndSum();
-                        case INSERT_ENTRY -> new InsertANewEntry(task);
-                        case READ_WHOLE_TABLE -> new SumWholeTableInSQL();
-                        case UPDATE_IN_RANGES -> new UpdateThreeTableEntries(task, startRange, stopRange);
+                        case READ_MULTIPLE_SINGLE_TUPLES_AND_SUM -> new ReadMultipleSingleTuplesAndSum();
+                        case INSERT_A_NEW_ENTRY -> new InsertANewEntry(task);
+                        case SUM_WHOLE_TABLE_IN_SQL -> new SumWholeTableInSQL();
+                        case UPDATE_THREE_TABLE_ENTRIES -> new UpdateThreeTableEntries(task, startRange, stopRange);
                     };
 
                     // execute and commit
@@ -182,11 +182,11 @@ public class Main {
 
                     // increment global value & print result
                     switch (operationType) {
-                        case READ_MULTIPLE_TUPLES -> SUM_INDIVIDUAL_TUPLES.incrementAndGet();
-                        case INSERT_ENTRY -> INSERT.incrementAndGet();
-                        case READ_WHOLE_TABLE -> SUM_WHOLE_TABLE_SQL.incrementAndGet();
-                        case UPDATE_IN_RANGES -> UPDATE_3_ENTRIES.incrementAndGet();
-                        default -> throw new RuntimeException("Invalid operation");
+                        case READ_MULTIPLE_SINGLE_TUPLES_AND_SUM -> READ_MULTIPLE_SINGLE_TUPLES_AND_SUM.incrementAndGet();
+                        case INSERT_A_NEW_ENTRY -> INSERT_A_NEW_ENTRY.incrementAndGet();
+                        case SUM_WHOLE_TABLE_IN_SQL -> SUM_WHOLE_TABLE_IN_SQL.incrementAndGet();
+                        case UPDATE_THREE_TABLE_ENTRIES -> UPDATE_THREE_TABLE_ENTRIES.incrementAndGet();
+                        default -> throw new RuntimeException("Invalid operation!");
                     }
                     final var output = "Done task " +
                             this.task +
