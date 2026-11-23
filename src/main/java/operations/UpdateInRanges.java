@@ -32,17 +32,14 @@ public class UpdateInRanges implements DatabaseOperation {
         List<Integer> updatedIds = new ArrayList<>();
 
         while (updatedIds.size() < NUM_ENTRIES_TO_UPDATE) {
-
             Array sqlArray = connection.createArrayOf(
                     "INTEGER",
                     updatedIds.toArray(Integer[]::new)
             );
 
-            try (PreparedStatement statement =
-                         connection.prepareStatement(UPDATE_TUPLE)) {
+            try (PreparedStatement statement = connection.prepareStatement(UPDATE_TUPLE)) {
 
-                statement.setDouble(1,
-                        ThreadLocalRandom.current().nextDouble() * MAX_VALUE);
+                statement.setDouble(1, ThreadLocalRandom.current().nextDouble() * MAX_VALUE);
 
                 int q = ThreadLocalRandom.current().nextInt(startRange.length);
 
@@ -53,14 +50,11 @@ public class UpdateInRanges implements DatabaseOperation {
 
                 try (ResultSet rs = statement.executeQuery()) {
                     if (!rs.next()) {
-                        throw new SQLException(
-                                "No matching tuple found for update. Updated IDs: " + updatedIds
-                        );
+                        throw new SQLException("No matching tuple found for update. Updated IDs: " + updatedIds);
                     }
 
                     updatedIds.add(rs.getInt("data_id"));
                 }
-
             } finally {
                 sqlArray.free();
             }

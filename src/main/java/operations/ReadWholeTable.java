@@ -1,6 +1,9 @@
 package operations;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ReadWholeTable implements DatabaseOperation {
 
@@ -9,17 +12,14 @@ public class ReadWholeTable implements DatabaseOperation {
 
     @Override
     public String execute(Connection connection) throws SQLException {
-
-        try (PreparedStatement statement =
-                     connection.prepareStatement(SUM_WHOLE_TABLE);
-             ResultSet rs = statement.executeQuery()) {
-
+        try (PreparedStatement statement = connection.prepareStatement(SUM_WHOLE_TABLE);
+             ResultSet rs = statement.executeQuery()
+        ) {
             if (!rs.next()) {
                 throw new SQLException("Full table SUM returned no result!");
             }
 
-            double sum = rs.getDouble("sum");
-
+            final var sum = rs.getDouble("sum");
             return "Sum whole table: " + sum;
         }
     }
